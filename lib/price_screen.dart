@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'coin_data.dart';
+import 'package:flutter/cupertino.dart';
 
 class PriceScreen extends StatefulWidget {
   @override
@@ -9,22 +10,31 @@ class PriceScreen extends StatefulWidget {
 class _PriceScreenState extends State<PriceScreen> {
   String selectedCurrency = 'USD';
 
-  List<DropdownMenuItem> getDropDownItems() {
-    List<DropdownMenuItem<String>> dropDownItems = [];
+  // List<DropdownMenuItem> getDropDownItems() {
+  //   List<DropdownMenuItem<String>> dropDownItems = [];
+  //
+  //   for (String currency in currenciesList) {
+  //     var newItem = DropdownMenuItem(
+  //       child: Text(currency),
+  //       value: currency,
+  //     );
+  //     dropDownItems.add(newItem);
+  //   }
+  //   return dropDownItems;
+  // }
+
+  List<Text> getPickerItems() {
+    List<Text> pickerItems = [];
 
     for (String currency in currenciesList) {
-      var newItem = DropdownMenuItem(
-        child: Text(currency),
-        value: currency,
-      );
-      dropDownItems.add(newItem);
+      pickerItems.add(Text(currency));
     }
-    return dropDownItems;
+    return pickerItems;
   }
 
   @override
   Widget build(BuildContext context) {
-    getDropDownItems();
+    //getDropDownItems();
     return Scaffold(
       appBar: AppBar(
         title: Text('🤑 Coin Ticker'),
@@ -55,22 +65,30 @@ class _PriceScreenState extends State<PriceScreen> {
             ),
           ),
           Container(
-            height: 150.0,
-            alignment: Alignment.center,
-            padding: EdgeInsets.only(bottom: 30.0),
-            color: Colors.lightBlue,
-            child: DropdownButton<dynamic>(
-              value: selectedCurrency,
-              items: getDropDownItems(),
-              onChanged: (value) {
-                setState(() {
-                  selectedCurrency = value!;
-                });
-              },
-            ),
-          ),
+              height: 150.0,
+              alignment: Alignment.center,
+              padding: EdgeInsets.only(bottom: 30.0),
+              color: Colors.lightBlue,
+              child: CupertinoPicker(
+                itemExtent: 30.0,
+                magnification: 1.1,
+                children: getPickerItems(),
+                onSelectedItemChanged: (selectedIndex) {
+                  print(selectedIndex);
+                },
+              )),
         ],
       ),
     );
   }
 }
+
+// DropdownButton<dynamic>(
+// value: selectedCurrency,
+// items: getDropDownItems(),
+// onChanged: (value) {
+// setState(() {
+// selectedCurrency = value!;
+// });
+// },
+// ),
