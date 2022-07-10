@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'coin_data.dart';
+import 'services/coin_data.dart';
+import '../utilities/constants.dart';
 import 'package:flutter/cupertino.dart';
 import 'dart:io' show Platform;
 
@@ -10,6 +11,10 @@ class PriceScreen extends StatefulWidget {
 
 class _PriceScreenState extends State<PriceScreen> {
   String selectedCurrency = 'USD';
+
+  void getCoinData() async {
+    var coinData = await CoinData().getCoinData();
+  }
 
   DropdownButton<String> androidDropdown() {
     List<DropdownMenuItem<String>> dropDownItems = [];
@@ -49,6 +54,20 @@ class _PriceScreenState extends State<PriceScreen> {
       },
       children: pickerItems,
     );
+  }
+
+  String bitcoinValueInUSD = '?';
+
+  void getData() async {
+    try {
+      double data = await CoinData().getCoinData();
+
+      setState(() {
+        bitcoinValueInUSD = data.toStringAsFixed(0);
+      });
+    } catch (e) {
+      print(e);
+    }
   }
 
   @override
